@@ -1,0 +1,221 @@
+[gd_scene load_steps=32 format=3 uid="uid://ctm3ho7oqsyl"]
+
+[ext_resource type="Texture2D" uid="uid://big47fewtlbpi" path="res://assets/hero-idle/hero-idle-1.png" id="1_si26e"]
+[ext_resource type="Texture2D" uid="uid://cuugw3iyy7g87" path="res://assets/hero-idle/hero-idle-2.png" id="2_nlp4u"]
+[ext_resource type="Texture2D" uid="uid://bommn0f8rlflq" path="res://assets/hero-idle/hero-idle-3.png" id="3_d03hu"]
+[ext_resource type="Texture2D" uid="uid://1sq6i5xxpy60" path="res://assets/hero-idle/hero-idle-4.png" id="4_qpaxa"]
+[ext_resource type="Texture2D" uid="uid://cg41ifawapeko" path="res://assets/hero-run/hero-run-1.png" id="5_pd4ad"]
+[ext_resource type="Texture2D" uid="uid://hwnu00tm2h78" path="res://assets/hero-jump/hero-jump-1.png" id="5_vdwwd"]
+[ext_resource type="Texture2D" uid="uid://de0cro2kan08p" path="res://assets/hero-run/hero-run-2.png" id="6_0dl3j"]
+[ext_resource type="Texture2D" uid="uid://bi1ovey0lkufe" path="res://assets/hero-jump/hero-jump-2.png" id="6_mrpy2"]
+[ext_resource type="Texture2D" uid="uid://di0kytvsxhfw8" path="res://assets/hero-jump/hero-jump-3.png" id="7_jerup"]
+[ext_resource type="Texture2D" uid="uid://dfe0pt4k16qvj" path="res://assets/hero-run/hero-run-3.png" id="7_q33uj"]
+[ext_resource type="Texture2D" uid="uid://cv3cqlxqo1lhf" path="res://assets/hero-jump/hero-jump-4.png" id="8_08bvn"]
+[ext_resource type="Texture2D" uid="uid://d1uqyopjcjq1y" path="res://assets/hero-run/hero-run-4.png" id="8_433ij"]
+[ext_resource type="Texture2D" uid="uid://csr0pfba5jtja" path="res://assets/hero-run/hero-run-5.png" id="9_bjplu"]
+[ext_resource type="Texture2D" uid="uid://dkideiniylisv" path="res://assets/hero-run/hero-run-6.png" id="10_3wtbl"]
+
+[sub_resource type="GDScript" id="GDScript_lc2qv"]
+script/source = "extends CharacterBody2D
+
+@onready var anim = $AnimatedSprite2D
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+enum State { idle , run, jump }
+var current_state
+
+func  _ready() -> void:
+		current_state = State.idle
+
+func is_idle():
+		if is_on_floor():
+			current_state = State.idle
+
+func is_running():
+	var direction = Input.get_axis(\"ui_left\", \"ui_right\")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+	if (direction):
+		if is_on_floor():
+			current_state = State.run
+		if (direction > 0):
+			anim.flip_h = false
+		else:
+			anim.flip_h = true
+
+func is_in_air(delta):
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+		current_state = State.jump
+
+func is_jumping():
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+func play_animation():
+	if current_state == State.idle:
+		anim.play(\"idle\")
+	elif current_state == State.run:
+		anim.play(\"run\")
+	elif  current_state == State.jump:
+		anim.play(\"jump\")
+		
+func _physics_process(delta: float) -> void:
+	is_idle()
+	is_in_air(delta)
+	is_running()
+	is_jumping()
+	# Handle jump.
+
+	
+	
+
+	play_animation()
+	move_and_slide()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sgow"]
+atlas = ExtResource("1_si26e")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4qmw"]
+atlas = ExtResource("2_nlp4u")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8evx3"]
+atlas = ExtResource("3_d03hu")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0a44i"]
+atlas = ExtResource("4_qpaxa")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msbg6"]
+atlas = ExtResource("5_vdwwd")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5134u"]
+atlas = ExtResource("6_mrpy2")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_62ns3"]
+atlas = ExtResource("7_jerup")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yghx2"]
+atlas = ExtResource("8_08bvn")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lapsf"]
+atlas = ExtResource("5_pd4ad")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spkok"]
+atlas = ExtResource("6_0dl3j")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fkik"]
+atlas = ExtResource("7_q33uj")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txrmi"]
+atlas = ExtResource("8_433ij")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1tpb"]
+atlas = ExtResource("9_bjplu")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abgto"]
+atlas = ExtResource("10_3wtbl")
+region = Rect2(17, 0, 118, 90)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fjjb3"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6sgow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4qmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8evx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0a44i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msbg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5134u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_62ns3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yghx2")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lapsf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spkok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6fkik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_txrmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1tpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abgto")
+}],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6e2gl"]
+radius = 26.0
+height = 56.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = SubResource("GDScript_lc2qv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fjjb3")
+animation = &"jump"
+autoplay = "idle"
+frame = 2
+frame_progress = 0.906552
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 18)
+shape = SubResource("CapsuleShape2D_6e2gl")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-2, 2)

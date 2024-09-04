@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwsxcweelxsaq"]
+
+[ext_resource type="PackedScene" uid="uid://c0f3kbn5sxmcx" path="res://Ground/tile_map_layer.tscn" id="1_ni3sj"]
+[ext_resource type="PackedScene" uid="uid://ctm3ho7oqsyl" path="res://Player/character_body_2d.tscn" id="2_4thxw"]
+[ext_resource type="PackedScene" uid="uid://caiq7rnv57aht" path="res://enemy/character_body_2d.tscn" id="3_2ss5o"]
+
+[node name="Main" type="Node2D"]
+
+[node name="TileMapLayer" parent="." instance=ExtResource("1_ni3sj")]
+position = Vector2(4, 10)
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("2_4thxw")]
+position = Vector2(362, 71)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_2ss5o")]
+position = Vector2(708, 231)
