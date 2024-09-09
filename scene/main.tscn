@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cconk7gkkfrqb"]
+
+[ext_resource type="PackedScene" uid="uid://c0t1ap464kt81" path="res://scene/map.tscn" id="1_3kovv"]
+[ext_resource type="PackedScene" uid="uid://b3awkhsejcu0e" path="res://parallax/parallax.tscn" id="1_ltxm8"]
+[ext_resource type="PackedScene" uid="uid://d0m1bt55yfdrp" path="res://scene/enemy.tscn" id="2_00qiy"]
+[ext_resource type="PackedScene" uid="uid://s28bndy2rik0" path="res://scene/player.tscn" id="2_el6ve"]
+
+[node name="Main" type="Node2D"]
+
+[node name="parallax" parent="." instance=ExtResource("1_ltxm8")]
+
+[node name="map" parent="." instance=ExtResource("1_3kovv")]
+position = Vector2(355, 750)
+
+[node name="player" parent="." instance=ExtResource("2_el6ve")]
+position = Vector2(672, 396)
+
+[node name="enemy" parent="." instance=ExtResource("2_00qiy")]
+position = Vector2(435, 394)
